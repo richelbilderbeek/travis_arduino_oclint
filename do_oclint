@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cpp_files=`ls {*.cpp,*.ino}`
+cpp_files=`find . -name *.ino`
 
 # Clean main should work
 ./oclint-0.10.3/bin/oclint -o oclint.log \
