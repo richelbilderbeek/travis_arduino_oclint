@@ -2,13 +2,24 @@ language: cpp
 compiler: gcc
 
 install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
-  - sudo apt-get update -qq 
-  - sudo apt-get install -qq libstdc++6-4.7-dev  
+  # arduino
+  - sudo apt-get install arduino
+  # ino
+  - cd ..
+  - git clone git://github.com/amperka/ino.git
+  - cd ino
+  - sudo make install
+  - sudo easy_install `cat requirements.txt`
+  - cd ..
+  - cd travis_arduino
+  # OCLint
   - ./install_oclint.sh
 
 script: 
-  - ./build.sh
+  - ino build
+  # Check if resulting file exists
+  - if [ -f .build/uno/firmware.hex ]; then return 0; else return 1; fi
+  # OCLint
   - ./do_oclint.sh
 
 after_success:
